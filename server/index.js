@@ -15,9 +15,9 @@ const server = new ApolloServer({
 })
 
 
-async function startServer() {
-    await server.start();
-    server.applyMiddleware({app})
+server.start().then(() => {
+     
+server.applyMiddleware({app})
 const PORT = process.env.PORT || 5000;
 
 mongoose
@@ -32,7 +32,7 @@ mongoose
     console.log(error.message)
 })
 
-}
+});
 
 startServer()
 
