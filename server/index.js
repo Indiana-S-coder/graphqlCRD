@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express")
-const {ApolloServer} = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server-express");
+const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -11,13 +12,17 @@ const app = express();
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()]
 })
 
 
 server.start().then(() => {
      
-server.applyMiddleware({app})
+server.applyMiddleware({app});
+
+// app.get('/', graphqlPlayground({ endpoint: '/graphql' }));
+
 const PORT = process.env.PORT || 5000;
 
 mongoose
