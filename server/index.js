@@ -14,19 +14,25 @@ const server = new ApolloServer({
     resolvers
 })
 
-server.applyMiddleware({app})
+
+async function startServer() {
+    await server.start();
+    server.applyMiddleware({app})
 const PORT = process.env.PORT || 5000;
 
 mongoose
 .connect(process.env.MONGO_URI)
 .then(() => {
     console.log("MongoDB connected successfully!")
-    return app.listen(PORT);
-})
-.then((res) => {
-    console.log(`Server running at ${res.url}`)
+    return app.listen(PORT, ()=>{
+        console.log(`Server started at ${PORT}`)
+    });
 })
 .catch((error) => {
     console.log(error.message)
 })
+
+}
+
+startServer()
 
